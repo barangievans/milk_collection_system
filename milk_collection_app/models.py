@@ -1,7 +1,16 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
-# Updated Customer model to include Farmer-related fields
+# Staff model using AbstractUser for authentication
+class Staff(AbstractUser):
+    employee_id = models.CharField(max_length=20, unique=True)
+    role = models.CharField(max_length=50, choices=[('Admin', 'Admin'), ('Operator', 'Operator')])
+
+    def __str__(self):
+        return self.username
+
+
+# Customer model (Not related to Staff, but for storing farmer details)
 class Customer(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
@@ -10,7 +19,8 @@ class Customer(models.Model):
     def __str__(self):
         return self.name
 
-# Updated Order model to include relationship with Farmer (Customer) and Collection Center
+
+# Order model with a relationship to Customer (Farmer) and Collection Center
 class Order(models.Model):
     customer = models.ForeignKey(Customer, related_name='orders', on_delete=models.CASCADE)
     product_name = models.CharField(max_length=100)
@@ -21,7 +31,8 @@ class Order(models.Model):
     def __str__(self):
         return f"Order #{self.id} by {self.customer.name}"
 
-# Updated Farmer model, now without customer relationship
+
+# Farmer model for storing farmer details
 class Farmer(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
@@ -32,7 +43,8 @@ class Farmer(models.Model):
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
 
-# Updated Collection Center model
+
+# Collection Center model for storing collection center details
 class CollectionCenter(models.Model):
     name = models.CharField(max_length=100)
     location = models.CharField(max_length=255, blank=True)
@@ -42,22 +54,19 @@ class CollectionCenter(models.Model):
     def __str__(self):
         return self.name
 
-# Updated Milk Collection Entry model
-class MilkCollectionEntry(models.Model):
-    # Existing fields
-    farmer = models.ForeignKey(Farmer, on_delete=models.CASCADE)
-    collection_center = models.ForeignKey(CollectionCenter, on_delete=models.CASCADE)
-    quantity = models.DecimalField(max_digits=5, decimal_places=2)
 
-    # New fields
-    collection_date = models.DateField(auto_now_add=True)  # Auto-fills date when entry is created
-    collection_time = models.TimeField(auto_now_add=True)  # Auto-fills time when entry is created
+# Milk Collection Entry model with updated fields
+class MilkCollectionEntry(models.Model):
+    # Relationships
+    farmer = models.ForeignKey(Farmer, on_delete=models.CASCADE)  # Linked to Farmer
+    collection_center = models.ForeignKey(CollectionCenter, on_delete=models.CASCADE)  # Linked to Collection Center
+
+    # Milk collection data
+    quantity = models.DecimalField(max_digits=5, decimal_places=2)  # Quantity in Liters
+    
+    # New fields to track the date and time of collection
+    collection_date = models.DateField(auto_now_add=True)  # Automatically sets the date when entry is created
+    collection_time = models.TimeField(auto_now_add=True)  # Automatically sets the time when entry is created
 
     def __str__(self):
-        return f"Milk collected from {self.farmer} on {self.collection_date} at {self.collection_time}"
-
-# Staff model, using AbstractUser for authentication
-class Staff(AbstractUser):
-    employee_id = models.CharField(max_length=20, unique=True)
-    role = models.CharField(max_length=50)
-    # password field is inherited from AbstractUser
+        return f"Milk collected from {self.farmer} at {self.collection_center} on {self.collection_date} at {self.collection_time}"
