@@ -23,15 +23,16 @@ from django.db import models
 #         return f"Order #{self.id} by {self.customer.name}"
 
 # Farmer model for storing farmer details
-# class Farmer(models.Model):
-#     first_name = models.CharField(max_length=50)
-#     last_name = models.CharField(max_length=50)
-#     middle_name = models.CharField(max_length=50, blank=True)
-#     id_number = models.CharField(max_length=20, unique=True)
-#     phone_number = models.CharField(max_length=15, unique=True)
+class Farmer(models.Model):
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    middle_name = models.CharField(max_length=50, blank=True, null=True)  # Allow NULL for optional fields
+    id_number = models.CharField(max_length=20, unique=True)
+    phone_number = models.CharField(max_length=15, unique=True)
 
-#     def __str__(self):
-#         return f"{self.first_name} {self.last_name}"
+    def __str__(self):
+        return f"{self.first_name} {self.last_name} (ID: {self.id_number})"
+
 
 # Collection Center model (Updated from CollectionCentre to CollectionCenter)
 class CollectionCenter(models.Model):
@@ -42,18 +43,12 @@ class CollectionCenter(models.Model):
     def __str__(self):
         return f"{self.collection_center_number} - {self.name}"
 
-# Milk Collection Entry model with updated fields
-# class MilkCollectionEntry(models.Model):
-#     # Relationships
-#     farmer = models.ForeignKey(Farmer, on_delete=models.CASCADE)  # Linked to Farmer
-#     collection_center = models.ForeignKey(CollectionCenter, on_delete=models.CASCADE)  # Linked to Collection Center
 
-#     # Milk collection data
-#     quantity = models.DecimalField(max_digits=5, decimal_places=2)  # Quantity in Liters
-    
-#     # New fields to track the date and time of collection
-#     collection_date = models.DateField(auto_now_add=True)  # Automatically sets the date when entry is created
-#     collection_time = models.TimeField(auto_now_add=True)  # Automatically sets the time when entry is created
+class MilkCollection(models.Model):
+    farmer = models.ForeignKey('Farmer', on_delete=models.CASCADE, related_name='milk_collections')  # Links to Farmer
+    collection_center = models.ForeignKey('CollectionCenter', on_delete=models.CASCADE, related_name='milk_collections')  # Links to Collection Center
+    quantity_liters = models.DecimalField(max_digits=5, decimal_places=2)  # Milk quantity in liters
+    collected_at = models.DateTimeField(auto_now_add=True)  # Timestamp for collection
 
-#     def __str__(self):
-#         return f"Milk collected from {self.farmer} at {self.collection_center} on {self.collection_date} at {self.collection_time}"
+    def __str__(self):
+        return f"{self.farmer.first_name} {self.farmer.last_name} - {self.quantity_liters}L"

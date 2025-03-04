@@ -1,21 +1,19 @@
 # milk_collection_app/serializers.py
 
 from rest_framework import serializers
-from .models import CollectionCenter
+from .models import CollectionCenter, Farmer,MilkCollection  # ✅ Import models
 
-# Commenting out FarmerSerializer
-# class FarmerSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Farmer
-#         fields = '__all__'  # Include all fields for the Farmer model
+class FarmerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Farmer
+        fields = '__all__'  # Or list specific fields if needed
 
 class CollectionCenterSerializer(serializers.ModelSerializer):
     class Meta:
         model = CollectionCenter
         fields = '__all__'  # Include all fields for the CollectionCenter model
 
-# Commenting out MilkCollectionEntrySerializer
-# class MilkCollectionEntrySerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = MilkCollectionEntry
-#         fields = ['farmer', 'collection_center', 'quantity', 'collection_date', 'collection_time']
+class MilkCollectionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MilkCollection
+        fields = '__all__'

@@ -1,13 +1,15 @@
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from milk_collection_app import views
+from milk_collection_app.views import MilkCollectionViewSet, CollectionCenterViewSet, FarmerViewSet
 
-# Set up the router for only CollectionCenterViewSet
+# Initialize the router
 router = DefaultRouter()
-router.register(r'collection-centers', views.CollectionCenterViewSet)  # Keep only this
+router.register(r'milk-collections', MilkCollectionViewSet)  # Register MilkCollectionViewSet
+router.register(r'collection-centers', CollectionCenterViewSet)
+router.register(r'farmers', FarmerViewSet)
 
 urlpatterns = [
-    path('admin/', admin.site.urls),  # Admin site URL
-    path('api/', include(router.urls)),  # Include only collection center URLs
+    path('admin/', admin.site.urls),
+    path('api/', include(router.urls)),  # Include API endpoints
 ]

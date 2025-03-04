@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'milk_collection_app',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [

@@ -1,0 +1,292 @@
+the API endpoints you need to test your Collection Center API:
+
+1. List All Collection Centers ✅
+Method: GET
+Endpoint:
+
+ruby
+Copy
+Edit
+http://127.0.0.1:8000/api/collection-centers/
+Expected Response:
+
+json
+Copy
+Edit
+[
+    {
+        "id": 1,
+        "collection_center_number": "FSA 1",
+        "name": "Nairobi Center",
+        "contact_number": "0721971593"
+    },
+    {
+        "id": 3,
+        "collection_center_number": "FSA 2",
+        "name": "Uswet Center",
+        "contact_number": "0715090867"
+    }
+]
+2. Retrieve a Single Collection Center by ID 🔍
+Method: GET
+Endpoint:
+
+bash
+Copy
+Edit
+http://127.0.0.1:8000/api/collection-centers/{id}/
+Example:
+
+ruby
+Copy
+Edit
+http://127.0.0.1:8000/api/collection-centers/1/
+Expected Response:
+
+json
+Copy
+Edit
+{
+    "id": 1,
+    "collection_center_number": "FSA 1",
+    "name": "Nairobi Center",
+    "contact_number": "0721971593"
+}
+3. Create a New Collection Center ➕
+Method: POST
+Endpoint:
+
+ruby
+Copy
+Edit
+http://127.0.0.1:8000/api/collection-centers/
+Headers:
+
+pgsql
+Copy
+Edit
+Content-Type: application/json
+Request Body:
+
+json
+Copy
+Edit
+{
+    "collection_center_number": "FSA 3",
+    "name": "Eldoret Center",
+    "contact_number": "0700123456"
+}
+Expected Response (201 Created):
+
+json
+Copy
+Edit
+{
+    "id": 4,
+    "collection_center_number": "FSA 3",
+    "name": "Eldoret Center",
+    "contact_number": "0700123456"
+}
+4. Update a Collection Center by ID ✏️
+Method: PUT
+Endpoint:
+
+bash
+Copy
+Edit
+http://127.0.0.1:8000/api/collection-centers/{id}/
+Example:
+
+ruby
+Copy
+Edit
+http://127.0.0.1:8000/api/collection-centers/1/
+Request Body (Change Name & Contact):
+
+json
+Copy
+Edit
+{
+    "collection_center_number": "FSA 1",
+    "name": "New Nairobi Center",
+    "contact_number": "0712345678"
+}
+Expected Response:
+
+json
+Copy
+Edit
+{
+    "id": 1,
+    "collection_center_number": "FSA 1",
+    "name": "New Nairobi Center",
+    "contact_number": "0712345678"
+}
+5. Partially Update a Collection Center 🛠
+Method: PATCH
+Endpoint:
+
+bash
+Copy
+Edit
+http://127.0.0.1:8000/api/collection-centers/{id}/
+Example:
+
+ruby
+Copy
+Edit
+http://127.0.0.1:8000/api/collection-centers/1/
+Request Body (Update only Contact Number):
+
+json
+Copy
+Edit
+{
+    "contact_number": "0798765432"
+}
+Expected Response:
+
+json
+Copy
+Edit
+{
+    "id": 1,
+    "collection_center_number": "FSA 1",
+    "name": "New Nairobi Center",
+    "contact_number": "0798765432"
+}
+6. Delete a Collection Center by ID ❌
+Method: DELETE
+Endpoint:
+
+bash
+Copy
+Edit
+http://127.0.0.1:8000/api/collection-centers/{id}/
+Example:
+
+ruby
+Copy
+Edit
+http://127.0.0.1:8000/api/collection-centers/1/
+Expected Response (204 No Content):
+No Response Body
+
+7. Find a Collection Center by Number 🔢
+Method: GET
+Endpoint:
+
+ruby
+Copy
+Edit
+http://127.0.0.1:8000/api/collection-centers/find-by-number/?number={collection_center_number}
+Example:
+
+ruby
+Copy
+Edit
+http://127.0.0.1:8000/api/collection-centers/find-by-number/?number=FSA 1
+Expected Response:
+
+json
+Copy
+Edit
+{
+    "id": 1,
+    "collection_center_number": "FSA 1",
+    "name": "Nairobi Center",
+    "contact_number": "0721971593"
+}
+8. Get All Collection Centers List 📜
+Method: GET
+Endpoint:
+
+arduino
+Copy
+Edit
+http://127.0.0.1:8000/api/collection-centers/all/
+Expected Response:
+Same as /api/collection-centers/, listing all centers.
+
+9. Delete a Collection Center via Custom Endpoint 🗑
+Method: DELETE
+Endpoint:
+
+bash
+Copy
+Edit
+http://127.0.0.1:8000/api/collection-centers/{id}/remove/
+Example:
+
+bash
+Copy
+Edit
+http://127.0.0.1:8000/api/collection-centers/3/remove/
+Expected Response:
+
+json
+Copy
+Edit
+{
+    "message": "Collection Center deleted successfully"
+}
+or
+
+json
+Copy
+Edit
+{
+    "error": "Collection Center not found"
+}
+
+python manage.py show_urls  # If using Django 4.2+
+
+ Admin Endpoints (Django Admin Panel)
+All of these are used for managing the application through Django’s built-in admin panel.
+
+Endpoint	HTTP Method(s)	Description
+http://localhost:8000/admin/	GET	Admin dashboard
+http://localhost:8000/admin/auth/group/	GET	View all groups
+http://localhost:8000/admin/auth/group/add/	GET, POST	Add a new group
+http://localhost:8000/admin/auth/group/<path:object_id>/	GET	View a specific group
+http://localhost:8000/admin/auth/group/<path:object_id>/change/	GET, POST	Edit a group
+http://localhost:8000/admin/auth/group/<path:object_id>/delete/	POST	Delete a group
+http://localhost:8000/admin/auth/group/<path:object_id>/history/	GET	View group change history
+http://localhost:8000/admin/auth/user/	GET	View all users
+http://localhost:8000/admin/auth/user/add/	GET, POST	Add a new user
+http://localhost:8000/admin/auth/user/<id>/password/	POST	Change user password
+http://localhost:8000/admin/auth/user/<path:object_id>/change/	GET, POST	Edit user details
+http://localhost:8000/admin/auth/user/<path:object_id>/delete/	POST	Delete a user
+http://localhost:8000/admin/auth/user/<path:object_id>/history/	GET	View user change history
+http://localhost:8000/admin/login/	GET, POST	Admin login
+http://localhost:8000/admin/logout/	GET	Admin logout
+http://localhost:8000/admin/password_change/	GET, POST	Change admin password
+http://localhost:8000/admin/password_change/done/	GET	Password change confirmation
+API Endpoints
+These are the actual API endpoints for managing farmers, collection centers, and milk collections.
+
+General API Root
+Endpoint	HTTP Method(s)	Description
+http://localhost:8000/api/	GET	API root
+http://localhost:8000/api/<drf_format_suffix:format>	GET	API root (formatted response)
+Collection Centers API
+Endpoint	HTTP Method(s)	Description
+http://localhost:8000/api/collection-centers/	GET, POST	Get all collection centers / Create a new collection center
+http://localhost:8000/api/collection-centers/<pk>/	GET, PUT, PATCH, DELETE	Get, update, or delete a specific collection center
+http://localhost:8000/api/collection-centers/<pk>/remove/	DELETE	Remove a collection center by ID
+http://localhost:8000/api/collection-centers/all/	GET	Retrieve a list of all collection centers
+http://localhost:8000/api/collection-centers/find-by-number/	GET	Search for a collection center by number
+Farmers API
+Endpoint	HTTP Method(s)	Description
+http://localhost:8000/api/farmers/	GET, POST	Get all farmers / Create a new farmer
+http://localhost:8000/api/farmers/<pk>/	GET, PUT, PATCH, DELETE	Get, update, or delete a specific farmer
+http://localhost:8000/api/farmers/find-by-phone/	GET	Search for a farmer by phone number
+Milk Collections API
+Endpoint	HTTP Method(s)	Description
+http://localhost:8000/api/milk-collections/	GET, POST	Get all milk collections / Create a new milk collection record
+http://localhost:8000/api/milk-collections/<pk>/	GET, PUT, PATCH, DELETE	Get, update, or delete a specific milk collection record
+Notes
+GET: Used to retrieve data (e.g., fetching a list of farmers).
+POST: Used to create new data (e.g., adding a new milk collection entry).
+PUT/PATCH: Used to update existing data (e.g., modifying a farmer’s details).
+DELETE: Used to remove data (e.g., deleting a collection center).
