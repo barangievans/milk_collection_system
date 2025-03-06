@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import CollectionCenter
+from .models import SMSNotification
 
 # Commented out other models
 # from .models import Farmer, MilkCollectionEntry, Staff
@@ -9,5 +10,5 @@ from .models import CollectionCenter
 
 # admin.site.register(Farmer)
 admin.site.register(CollectionCenter)
-# admin.site.register(MilkCollectionEntry, MilkCollectionEntryAdmin)
+admin.site.register(SMSNotification)
 # admin.site.register(Staff)

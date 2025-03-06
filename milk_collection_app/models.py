@@ -52,3 +52,12 @@ class MilkCollection(models.Model):
 
     def __str__(self):
         return f"{self.farmer.first_name} {self.farmer.last_name} - {self.quantity_liters}L"
+    
+
+class SMSNotification(models.Model):
+    farmer = models.ForeignKey(Farmer, on_delete=models.CASCADE)
+    message = models.TextField()
+    sent_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"SMS to {self.farmer.phone_number} at {self.sent_at}"

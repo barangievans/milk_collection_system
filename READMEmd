@@ -290,3 +290,12 @@ GET: Used to retrieve data (e.g., fetching a list of farmers).
 POST: Used to create new data (e.g., adding a new milk collection entry).
 PUT/PATCH: Used to update existing data (e.g., modifying a farmer’s details).
 DELETE: Used to remove data (e.g., deleting a collection center).
+
+#SMS Notifications API Endpoints
+#Method	Endpoint	Description
+GET	http://127.0.0.1:8000/api/sms_notifications/	List all SMS notifications
+POST	http://127.0.0.1:8000/api/sms_notifications/	Create a new SMS notification
+GET	http://127.0.0.1:8000/api/sms_notifications/<int:pk>/	Retrieve a specific SMS notification
+PUT	http://127.0.0.1:8000/api/sms_notifications/<int:pk>/	Update an SMS notification
+PATCH	http://127.0.0.1:8000/api/sms_notifications/<int:pk>/	Partially update an SMS notification
+DELETE	http://127.0.0.1:8000/api/sms_notifications/<int:pk>/	Delete an SMS notification

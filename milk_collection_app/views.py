@@ -1,8 +1,13 @@
 from rest_framework.decorators import action 
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status, generics
 from rest_framework.response import Response
-from .models import CollectionCenter, Farmer, MilkCollection  # ✅ Import models
-from .serializers import CollectionCenterSerializer, FarmerSerializer, MilkCollectionSerializer  # ✅ Import serializers
+from .models import CollectionCenter, Farmer, MilkCollection, SMSNotification  # ✅ Import models
+from .serializers import (
+    CollectionCenterSerializer, 
+    FarmerSerializer, 
+    MilkCollectionSerializer, 
+    SMSNotificationSerializer  # ✅ Import SMSNotificationSerializer
+)
 
 class CollectionCenterViewSet(viewsets.ModelViewSet):
     queryset = CollectionCenter.objects.all()
@@ -53,7 +58,15 @@ class FarmerViewSet(viewsets.ModelViewSet):
         except Farmer.DoesNotExist:
             return Response({"error": "Farmer not found"}, status=status.HTTP_404_NOT_FOUND)
 
-
 class MilkCollectionViewSet(viewsets.ModelViewSet):
     queryset = MilkCollection.objects.all().order_by('-collected_at')
     serializer_class = MilkCollectionSerializer
+
+# ✅ Add SMS Notification Views
+class SMSNotificationListCreateView(generics.ListCreateAPIView):
+    queryset = SMSNotification.objects.all()
+    serializer_class = SMSNotificationSerializer
+
+class SMSNotificationDetailView(generics.RetrieveDestroyAPIView):
+    queryset = SMSNotification.objects.all()
+    serializer_class = SMSNotificationSerializer

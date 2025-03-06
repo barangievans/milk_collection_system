@@ -1,7 +1,7 @@
 # milk_collection_app/serializers.py
 
 from rest_framework import serializers
-from .models import CollectionCenter, Farmer,MilkCollection  # ✅ Import models
+from .models import CollectionCenter, Farmer,MilkCollection, SMSNotification # ✅ Import models
 
 class FarmerSerializer(serializers.ModelSerializer):
     class Meta:
@@ -17,3 +17,8 @@ class MilkCollectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = MilkCollection
         fields = '__all__'
+    
+class SMSNotificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SMSNotification
+        fields = ('id', 'farmer', 'message', 'sent_at') 
