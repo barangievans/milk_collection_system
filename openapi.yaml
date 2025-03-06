@@ -1,0 +1,161 @@
+openapi: 3.0.0
+info:
+  title: Milk Collection API
+  description: API for managing milk collection centers, farmers, and milk collection records.
+  version: 1.0.0
+servers:
+  - url: http://127.0.0.1:8000
+    description: Local Development Server
+
+paths:
+  /auth/login/:
+    post:
+      summary: User Login
+      description: Authenticate a user and return a token.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "200":
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+
+  /auth/logout/:
+    post:
+      summary: User Logout
+      description: Logs out the authenticated user.
+      responses:
+        "200":
+          description: Logout successful
+
+  /collection-centers/:
+    get:
+      summary: List all collection centers
+      responses:
+        "200":
+          description: Returns a list of collection centers
+    post:
+      summary: Create a new collection center
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                location:
+                  type: string
+      responses:
+        "201":
+          description: Collection center created successfully
+
+  /farmers/:
+    get:
+      summary: List all farmers
+      responses:
+        "200":
+          description: Returns a list of farmers
+    post:
+      summary: Register a new farmer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                phone_number:
+                  type: string
+      responses:
+        "201":
+          description: Farmer registered successfully
+
+  /milk-collections/:
+    get:
+      summary: List all milk collections
+      responses:
+        "200":
+          description: Returns a list of milk collections
+    post:
+      summary: Record a new milk collection entry
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                farmer_id:
+                  type: integer
+                collection_center_id:
+                  type: integer
+                quantity:
+                  type: number
+      responses:
+        "201":
+          description: Milk collection recorded successfully
+
+  /sms-notifications/:
+    get:
+      summary: List all SMS notifications
+      responses:
+        "200":
+          description: Returns a list of SMS notifications
+    post:
+      summary: Send a new SMS notification
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                recipient:
+                  type: string
+                message:
+                  type: string
+      responses:
+        "201":
+          description: SMS notification sent successfully
+
+  /sms-notifications/{id}/:
+    get:
+      summary: Get details of a specific SMS notification
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Returns details of an SMS notification
+    delete:
+      summary: Delete an SMS notification
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: SMS notification deleted successfully
